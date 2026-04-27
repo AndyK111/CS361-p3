@@ -1,13 +1,14 @@
 package tm;
 
+@SuppressWarnings("unused")
 public class TMTransition {
     protected TMState destination;
-    protected char input;
-    protected int direction; //0 for left, 1 for right
+    protected int write;
+    protected TMDirection direction; //0 for left, 1 for right
 
-    public TMTransition(TMState toState, char input, int direction){
+    public TMTransition(TMState toState, int write, TMDirection direction){
         this.destination = toState;
-        this.input = input;
+        this.write = write;
         this.direction = direction;
     }
 
@@ -15,11 +16,11 @@ public class TMTransition {
         return this.destination;
     }
 
-    public char getInput(){
-        return this.input;
+    public int getInput(){
+        return this.write;
     }
 
-    public int getDirection(){
+    public TMDirection getDirection(){
         return this.direction;
     }
 }
