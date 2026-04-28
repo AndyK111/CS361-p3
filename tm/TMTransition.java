@@ -16,7 +16,7 @@ public class TMTransition {
         return this.destination;
     }
 
-    public int getInput(){
+    public int getWrite(){
         return this.write;
     }
 

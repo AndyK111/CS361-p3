@@ -5,6 +5,7 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class TMState {
     protected String stateName;
+    //TODO: Investigate replacing hashtable with lookup table for speedup
     protected HashMap<String, TMTransition> transitions = new HashMap<>();
 
     public TMState(String id){
