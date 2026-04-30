@@ -56,9 +56,19 @@ TESTING:
 How did you test your program to be sure it works and meets all of the
 requirements? What was the testing strategy? What kinds of tests were
 run?
+
+I ran the program against the included Turing Machine files that were provided on canvas. For file 5 I compared the sum
+counts.
+
 Can your program handle bad input? Is your program idiot-proof? How do
 you
+
+The program crashes on bad input. Which I think is expected behavior.
+
 know? What are the known issues / bugs remaining in your program?
+
+I have not noticed any yet. Slowness was an issue but that was resolved when switching from a Linked List implementation
+of the tape to a standard array.
 
 DISCUSSION:
 
@@ -85,10 +95,16 @@ EXTRA CREDIT:
 If the project had opportunities for extra credit that you attempted,
 be sure to call it out so the grader does not overlook it.
 
+*Hoping to get a good enough speed for some extra points!*
+
 SOURCES:
 
 Sam's sources:
 I used chatGPT on April 27th, 2026 to gain an overhead understanding of
 how the TMParser.java class worked (I had never seen a BufferedReader before)
 --------------------------------------------------------------------------
+Andy's sources:
+- I searched the java enum declaration to use for TMDirection, I never used an enum in java before.
+- I used chatGPT on April 28th, 2026 to ask if java always needed to use an O(n) traversal to fetch any value on a LinkedList.
+  (I partially expected java would keep some active reference to move around, as if it were an iterator)
 --
