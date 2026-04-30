@@ -1,8 +1,3 @@
-
-DocViewer
-Page
-of 3
-Pages
 ****************
 * Project 3: Turing Machine Simulator
 * CS 361
@@ -30,22 +25,33 @@ To run the program, run:
 'java ./tm/TMSimulator.java <filename.txt>
 
 PROGRAM DESIGN AND IMPORTANT CONCEPTS:
-This is the sort of information someone who really wants to
-understand your program - possibly to make future enhancements -
-would want to know.
-Explain the main concepts and organization of your program so that
-the reader can understand how your program works. This is not a repeat
-of javadoc comments or an exhaustive listing of all methods, but an
-explanation of the critical algorithms and object interactions that make
-up the program.
-Explain the main responsibilities of the classes and interfaces that make
-up the program. Explain how the classes work together to achieve the
-program
-goals. If there are critical algorithms that a user should understand,
-explain them as well.
-If you were responsible for designing the program's classes and choosing
-how they work together, why did you design the program this way? What, if
-anything, could be improved?
+
+The design of our Turing machine is broken up into several key classes
+that each simulate one specific aspect of the machine, I.E. the tape,
+a state, a transition, a direction. These individual parts are put together
+in the TM.java class. Each state is represented by an individual State object,
+with transitions stored in a HashMap. Transitions store the destination, write
+character, and direction. When transitions are added, their key is the character
+consumed and their value is the transition object itself. The tape stores cells
+that have been visited in an array of ints with the head (an index) starting at the center
+of the array, and shifting left or right based on the corresponding 
+transition read from the current state and input symbol. If the movement of the
+machine butts up against either end of the array, a new array is created with 
+double the length and copies the old array into the new one using System.arraycopy.
+
+The parser class' job is to interpret the lines on the input file and convert
+those specifications into a TM with the correct number of states and transitions
+corresponding to each input symbol for each state. This process is done using a 
+buffered reader to more easily read one line at a time. It is VERY IMPORTANT that the
+input file is correctly formatted, as even a slight error will break the whole
+thing. TMSimulator.java is our driver class, allowing the user to pass in an input file
+in the command line and building/simulating the corresponding TM. The characters
+on the tape are outputted as a string once the machine halts. Unfortunately our simulator
+can only really work with TMs that are exactly within the assignment specifications,
+meaning that TMs that don't have a guaranteed transition for each symbol in the alphabet,
+stay put TMs, and multi-tape/head TMs are not possible under our existing framework. This
+limitation is probably the first place to start if one wanted to improve our simulator. 
+
 TESTING:
 How did you test your program to be sure it works and meets all of the
 requirements? What was the testing strategy? What kinds of tests were
@@ -53,42 +59,36 @@ run?
 Can your program handle bad input? Is your program idiot-proof? How do
 you
 know? What are the known issues / bugs remaining in your program?
+
 DISCUSSION:
-Discuss the issues you encountered during programming (development)
-and testing. What problems did you have? What did you have to research
-and learn on your own? What kinds of errors did you get? How did you
-fix them?
-What parts of the project did you find challenging? Is there anything
-that finally "clicked" for you in the process of working on this project?
+
+Implementation of our simulator was very straightforward. As mentioned
+above, we broke the TM itself into it's component parts and implemented
+them one at a time, making changes to variable formatting and data structures
+when it seemed necessary/useful. There wasn't much in this process that
+went beyond our existing knowledge base, which thankfully meant that we
+didn't have to spend too much time figuring out how to do something and
+instead just did it. 
+
+When initially running the simulator with file 0, our output 
+seemed to be different from what was expected. However, we soon realized
+that the initial blank line for input was actually supposed to be three
+ones in a row (as specified in the assignment doc), which when fixed
+ended up doing the trick. Once we ran file 5, we realized that our machine
+was far from efficient, prompting us to replace the initial LinkedList with
+a standard array for higher efficiency. I wouldn't really say that any parts 
+of this project were particularly challenging or difficult (thankfully). I 
+can however say that it led to a much better understanding of Turing machines 
+conceptually, at least for me (Sam).
+
 EXTRA CREDIT:
 If the project had opportunities for extra credit that you attempted,
 be sure to call it out so the grader does not overlook it.
+
 SOURCES:
-All sources used outside of lecture notes, slides, and the textbook need
-to
-be cited here. If you used websites, used GenAI, asked your dad or your
-boss
-or your roommate for help then you must cite those resources. I am not
-concerned if you use proper APA or MLA or another format as long as you
-include
-all relevant information. If it is a person or GenAI that you referenced,
-be
-sure to include who you talked to (or which AI you accessed), when you
-talked
-to them, and what help they provided (e.g. Student, Awesome. Private
-communication, 21 January 2026. Discussed how polymorphism allows the
-return
-types of methods implemented in a class to be different from the class
-specified
-in the interface as long as the <type in implementation> “is-a” <type in
-interface>.)
+
+Sam's sources:
+I used chatGPT on April 27th, 2026 to gain an overhead understanding of
+how the TMParser.java class worked (I had never seen a BufferedReader before)
 --------------------------------------------------------------------------
 --
-All content in a README file is expected to be written in clear English
-with
-proper grammar, spelling, and punctuation. If you are not a strong writer,
-be sure to get someone else to help you with proofreading. Consider all
-project
-documentation to be professional writing for your boss and/or potential
-customers.
-Annotations
