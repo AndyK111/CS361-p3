@@ -1,21 +1,17 @@
 package tm;
 
-import java.util.HashMap;
-
 @SuppressWarnings("unused")
 public class TMState {
     protected String stateName;
-    //TODO: Investigate replacing hashtable with lookup table for speedup
-    protected HashMap<String, TMTransition> transitions = new HashMap<>();
+    protected TMTransition[] transitions;
 
-    public TMState(String id){
+    public TMState(String id, int symbolsQuantity){
         this.stateName = id;
+        this.transitions = new TMTransition[symbolsQuantity + 1];
     }
 
     public void addTransition(int readSymbol, int writeSymbol, TMState destination, TMDirection tapeDirection){
-        String mapID = readSymbol + "";
-        TMTransition trans = new TMTransition(destination, writeSymbol, tapeDirection);
-        transitions.put(mapID, trans);
+        transitions[readSymbol] = new TMTransition(destination, writeSymbol, tapeDirection);
     }
 
     public String getName(){
@@ -23,6 +19,6 @@ public class TMState {
     }
 
     public TMTransition getTransition(int readSymbol){
-        return transitions.get(readSymbol+"");
+        return transitions[readSymbol];
     }
 }

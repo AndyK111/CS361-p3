@@ -20,8 +20,7 @@ public class TMParser
 
             for (int i = 0; i < statesQuantity; i++)
             {
-                //TODO: Investigate turning string state label into int
-                states[i] = new TMState(String.valueOf(i));
+                states[i] = new TMState(String.valueOf(i), symbolsQuantity);
             }
 
             readTransitions(br, states, statesQuantity, symbolsQuantity);
