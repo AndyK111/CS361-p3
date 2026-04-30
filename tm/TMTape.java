@@ -1,7 +1,5 @@
 package tm;
 
-import java.util.LinkedList;
-
 @SuppressWarnings("unused")
 public class TMTape {
     private static int[] toSymbolArray(String input)
@@ -16,8 +14,10 @@ public class TMTape {
         return symbols;
     }
 
-    protected LinkedList<Integer> tape = new LinkedList<>();
-    protected int head; //index of the current cell
+    protected int[] tape;
+    protected int headIndex;
+    protected int leftBoundIndex;
+    protected int rightBoundIndex;
 
     public TMTape()
     {
@@ -31,55 +31,80 @@ public class TMTape {
 
     public TMTape(int[] inputSymbols)
     {
-        this.head = 0;
+        int initialSize = Math.max(1048576, inputSymbols.length * 2 + 1);
+        tape = new int[initialSize];
+
+        headIndex = initialSize / 2;
+        leftBoundIndex = initialSize / 2;
 
         if (inputSymbols.length == 0)
         {
-            tape.add(0);
+            rightBoundIndex = headIndex;
         }
         else
         {
-            for (int symbol : inputSymbols)
-            {
-                tape.add(symbol);
-            }
+            rightBoundIndex = headIndex + inputSymbols.length - 1;
+
+            System.arraycopy(inputSymbols, 0, tape, headIndex, inputSymbols.length);
         }
     }
 
     public int read()
     {
-        return tape.get(head);
+        return tape[headIndex];
     }
 
     public void write(int symbol)
     {
-        tape.set(head, symbol);
+        tape[headIndex] = symbol;
     }
 
     public void moveRight(){
-        this.head++;
-        if(head >= tape.size()) {
-            tape.add(0);
+        headIndex++;
+        verifyCapacity();
+
+        if (headIndex > rightBoundIndex)
+        {
+            rightBoundIndex = headIndex;
         }
     }
 
     public void moveLeft(){
-        if(this.head == 0){
-            tape.addFirst(0);
-        } else {
-            head--;
+        headIndex--;
+        verifyCapacity();
+
+        if (headIndex < leftBoundIndex)
+        {
+            leftBoundIndex = headIndex;
         }
     }
 
     public String getVisitedContents()
     {
-        StringBuilder output = new StringBuilder();
+        StringBuilder sb = new StringBuilder(rightBoundIndex - leftBoundIndex + 1);
 
-        for (int symbol : tape)
+        for (int i = leftBoundIndex; i <= rightBoundIndex; i++)
         {
-            output.append(symbol);
+            sb.append(tape[i]);
         }
 
-        return output.toString();
+        return sb.toString();
+    }
+
+    public void verifyCapacity()
+    {
+        if (headIndex >= 0 && headIndex < tape.length) return;
+
+        int oldLength = tape.length;
+        int newLength = oldLength * 2;
+        int[] newTape = new int[newLength];
+        int offset = oldLength/2;
+
+        System.arraycopy(tape, 0, newTape, offset, oldLength);
+
+        tape = newTape;
+        headIndex += offset;
+        leftBoundIndex += offset;
+        rightBoundIndex += offset;
     }
 }
